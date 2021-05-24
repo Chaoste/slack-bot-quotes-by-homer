@@ -1,0 +1,9 @@
+quotes:
+  - content: That's a quote by the poet
+    context:
+      book: Illiad
+      page: 255
+  - content: That's another quote by the poet
+    context:
+      book: Odyssee
+      page: 132

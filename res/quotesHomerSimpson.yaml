@@ -1,0 +1,9 @@
+quotes:
+  - content: That's a quote from Simpsons
+    context:
+      season: 3
+      episode: 7
+  - content: That's another quote from Simpsons
+    context:
+      season: 8
+      episode: 12
