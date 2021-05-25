@@ -9,12 +9,15 @@ from dotenv import load_dotenv
 load_dotenv()
 SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
 SLACK_EVENTS_TOKEN = os.environ.get("SLACK_EVENTS_TOKEN")
+PORT = os.environ.get("PORT")
 
 # Initialize a Flask app to host the events adapter
 app = Flask(__name__)
+
 # Create an events adapter and register it to an endpoint in the slack app for event injestion.
 slack_events_adapter = SlackEventAdapter(
     SLACK_EVENTS_TOKEN, "/slack/events", app)
+
 
 # Initialize a Web API client
 slack_web_client = WebClient(token=SLACK_TOKEN)
@@ -31,6 +34,11 @@ def pick_quote(channel):
 
     # Post the onboarding message in Slack
     slack_web_client.chat_postMessage(**message)
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
 
 
 # When a 'message' event is detected by the events adapter, forward that payload
@@ -71,4 +79,4 @@ if __name__ == "__main__":
 
     # Run our app on our externally facing IP address on port 3000 instead of
     # running it on localhost, which is traditional for development.
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=PORT)
