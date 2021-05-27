@@ -49,6 +49,8 @@ def message(payload):
     simulate a coin flip and send the result.
     """
 
+    logger.debug('Slack message event received')
+
     # Get the event data from the payload
     event = payload.get("event", {})
 
@@ -82,6 +84,8 @@ if __name__ == "__main__":
 
     # Add the StreamHandler as a logging handler
     logger.addHandler(logging.StreamHandler())
+
+    logger.debug('Starting app...')
 
     # Run our app on our externally facing IP address on port 3000 instead of
     # running it on localhost, which is traditional for development.
