@@ -72,6 +72,8 @@ def message(payload):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(filename='logs/app.log', filemode='w')
+
     # Create the logging object
     logger = logging.getLogger()
 
