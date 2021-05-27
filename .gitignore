@@ -1,3 +1,13 @@
 venv
 .vscode
 .env
+__pycache__/
+
+# external libraries
+click/
+flask/
+itsdangerous/
+jinja2/
+markupsafe/
+tmp/
+werkzeug/
