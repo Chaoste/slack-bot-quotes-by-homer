@@ -1,4 +1,5 @@
 import os
+import traceback
 import logging
 from flask import Flask
 from slack import WebClient
@@ -71,10 +72,15 @@ def message(payload):
 
         return pick_quote(channel_id)
     except Exception as error:
-        f = open("logs/error.log", "a")
+        f = open("logs/error.log", "w")
+        f.write("Error when processing incoming message:")
+        f.write("\n")
         f.write(error)
+        f.write("\n")
+        f.write(traceback.print_exception())
+        f.write("\n")
         f.close()
-        return
+        raise error
 
     # Check and see if the activation phrase was in the text of the message.
     # If so, execute the code to flip a coin.
