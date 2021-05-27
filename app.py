@@ -11,6 +11,14 @@ SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
 SLACK_EVENTS_TOKEN = os.environ.get("SLACK_EVENTS_TOKEN")
 PORT = os.environ.get("PORT")
 
+logging.basicConfig(filename='logs/app.log', level=logging.DEBUG)
+
+# Create the logging object
+logger = logging.getLogger()
+
+# Add the StreamHandler as a logging handler
+logger.addHandler(logging.StreamHandler())
+
 # Initialize a Flask app to host the events adapter
 app = Flask(__name__)
 
@@ -38,6 +46,7 @@ def pick_quote(channel):
 
 @app.route('/')
 def hello_world():
+    logger.debug('Hello world!')
     return 'Hello, World!'
 
 
@@ -45,21 +54,27 @@ def hello_world():
 # to this function.
 @slack_events_adapter.on("message")
 def message(payload):
-    """Parse the message event, and if the activation string is in the text,
-    simulate a coin flip and send the result.
-    """
+    try:
+        """Parse the message event, and if the activation string is in the text,
+        simulate a coin flip and send the result.
+        """
 
-    logger.debug('Slack message event received')
+        logger.debug('Slack message event received')
 
-    # Get the event data from the payload
-    event = payload.get("event", {})
+        # Get the event data from the payload
+        event = payload.get("event", {})
 
-    # Get the text from the event that came through
-    text = event.get("text")
+        # Get the text from the event that came through
+        text = event.get("text")
 
-    channel_id = event.get("channel")
+        channel_id = event.get("channel")
 
-    return pick_quote(channel_id)
+        return pick_quote(channel_id)
+    except Exception as error:
+        f = open("logs/error.log", "a")
+        f.write(error)
+        f.close()
+        return
 
     # Check and see if the activation phrase was in the text of the message.
     # If so, execute the code to flip a coin.
@@ -74,17 +89,6 @@ def message(payload):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='logs/app.log', filemode='w')
-
-    # Create the logging object
-    logger = logging.getLogger()
-
-    # Set the log level to DEBUG. This will increase verbosity of logging messages
-    logger.setLevel(logging.DEBUG)
-
-    # Add the StreamHandler as a logging handler
-    logger.addHandler(logging.StreamHandler())
-
     logger.debug('Starting app...')
 
     # Run our app on our externally facing IP address on port 3000 instead of
