@@ -2,7 +2,6 @@
 # Das Ändern:
 import os
 import sys
-from app import MyApp as application
 CONDA_ENV = "slack-bot"
 PYTHON_VERSION = "python3.9"
 MINICONDA_ROOT = "/miniconda3"
@@ -12,8 +11,8 @@ mit os.execl("python","python","this_file") wird die Datei im definierten Python
 Alle Packages die der Python Interpreter zur Verfügung hat können importiert werden.
 Code leicht geändert von: https://help.dreamhost.com/hc/en-us/articles/215769548-Passenger-and-Python-WSGI
 """
-INTERP = os.environ["HOME"]+MINICONDA_ROOT + \
-    "/envs/"+CONDA_ENV+"/bin/"+PYTHON_VERSION
+INTERP = os.environ["HOME"] + MINICONDA_ROOT + \
+    "/envs/" + CONDA_ENV + "/bin/" + PYTHON_VERSION
 # INTERP = os.environ["HOME"]+"/miniconda3/envs/testenv/bin/python3.9"
 """
 os.environ["HOME"] ist wie ~/
@@ -36,3 +35,4 @@ if sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
 # Dieser Code wird erst beim finalen Interpreter ausgeführt:
 # Das Ändern:
+from app import app as application
