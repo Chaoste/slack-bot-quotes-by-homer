@@ -55,6 +55,10 @@ def message(payload):
     # Get the text from the event that came through
     text = event.get("text")
 
+    channel_id = event.get("channel")
+
+    return pick_quote(channel_id)
+
     # Check and see if the activation phrase was in the text of the message.
     # If so, execute the code to flip a coin.
     if "quote homer" in text.lower():
