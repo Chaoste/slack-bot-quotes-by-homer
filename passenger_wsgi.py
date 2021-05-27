@@ -3,7 +3,7 @@
 import os
 import sys
 from app import MyApp as application
-NAME_MEINER_VENV = "slack-app"
+CONDA_ENV = "slack-bot"
 PYTHON_VERSION = "python3.9"
 MINICONDA_ROOT = "/miniconda3"
 """
@@ -13,7 +13,7 @@ Alle Packages die der Python Interpreter zur Verfügung hat können importiert w
 Code leicht geändert von: https://help.dreamhost.com/hc/en-us/articles/215769548-Passenger-and-Python-WSGI
 """
 INTERP = os.environ["HOME"]+MINICONDA_ROOT + \
-    "/envs/"+NAME_MEINER_VENV+"/bin/"+PYTHON_VERSION
+    "/envs/"+CONDA_ENV+"/bin/"+PYTHON_VERSION
 # INTERP = os.environ["HOME"]+"/miniconda3/envs/testenv/bin/python3.9"
 """
 os.environ["HOME"] ist wie ~/
