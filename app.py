@@ -57,7 +57,7 @@ def message(payload):
 
     # Check and see if the activation phrase was in the text of the message.
     # If so, execute the code to flip a coin.
-    if "/homer" in text.lower():
+    if "quote homer" in text.lower():
         # Since the activation phrase was met, get the channel ID that the event
         # was executed on
         channel_id = event.get("channel")
