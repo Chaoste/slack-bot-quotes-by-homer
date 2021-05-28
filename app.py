@@ -55,11 +55,13 @@ def hello_world():
 # to this function.
 @slack_events_adapter.on("message")
 def message(payload):
+    f = open("logs/error.log", "a")
     try:
         """Parse the message event, and if the activation string is in the text,
         simulate a coin flip and send the result.
         """
-
+        f.write("Slack message event received")
+        f.write("\n")
         logger.debug('Slack message event received')
 
         # Get the event data from the payload
@@ -67,20 +69,29 @@ def message(payload):
 
         # Get the text from the event that came through
         text = event.get("text")
+        f.write("- text: " + text)
+        f.write("\n")
 
         channel_id = event.get("channel")
 
-        return pick_quote(channel_id)
+        f.write("- channel: " + channel_id)
+        f.write("\n")
+
+        quote = pick_quote(channel_id)
+        f.write("- quote: " + quote)
+        f.write("\n")
+
+        return quote
     except Exception as error:
-        f = open("logs/error.log", "w")
         f.write("Error when processing incoming message:")
         f.write("\n")
         f.write(error)
         f.write("\n")
         f.write(traceback.print_exception())
         f.write("\n")
+        # raise error
+    finally:
         f.close()
-        raise error
 
     # Check and see if the activation phrase was in the text of the message.
     # If so, execute the code to flip a coin.
