@@ -2,6 +2,7 @@
 import sys
 import random
 import yaml
+import json
 
 with open("./res/quotesHomerPoet.yaml", 'r') as stream:
     try:
@@ -44,16 +45,14 @@ class SlackBotQBH:
     def _select_quote(self, f):
         f.write("\nGO:\n")
         _type = random.choice(list(self.QUOTES.keys()))
-        f.write(self.COIN_BLOCK)
+        f.write(json.dumps(self.COIN_BLOCK))
         f.write("\n")
         f.write(_type + "\n")
-        f.write(self.QUOTES)
+        f.write(json.dumps(self.QUOTES))
         f.write("\n")
-        f.write(quotesHomerPoet)
+        f.write(json.dumps(self.QUOTES[_type]))
         f.write("\n")
-        f.write(self.QUOTES[_type])
-        f.write("\n")
-        f.write(self.QUOTES[_type]["quotes"])
+        f.write(json.dumps(self.QUOTES[_type]["quotes"]))
         f.write("\n")
         selection = self.QUOTES[_type]["quotes"]
         f.write(selection + "\n")
