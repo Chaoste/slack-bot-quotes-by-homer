@@ -84,7 +84,7 @@ def message(payload):
             f.write("- channel: " + channel_id)
             f.write("\n")
 
-            quote = pick_quote(channel_id, f)
+            quote = pick_quote(channel_id)
             f.write("- quote: " + json.dumps(quote))
             f.write("\n")
 
