@@ -45,21 +45,15 @@ class SlackBotQBH:
     def _select_quote(self, f):
         f.write("\nGO:\n")
         _type = random.choice(list(self.QUOTES.keys()))
-        f.write(json.dumps(self.COIN_BLOCK))
-        f.write("\n")
-        f.write(_type + "\n")
-        f.write(json.dumps(self.QUOTES))
-        f.write("\n")
-        f.write(json.dumps(self.QUOTES[_type]))
+        f.write(_type)
         f.write("\n")
         f.write(json.dumps(self.QUOTES[_type]["quotes"]))
         f.write("\n")
         selection = self.QUOTES[_type]["quotes"]
-        f.write(selection + "\n")
         picked = random.choice(selection)
-        f.write(picked + "\n")
+        f.write(json.dumps(picked) + "\n")
         quote = f'"{picked["content"]}"'
-        f.write(quote + "\n")
+        f.write(json.dumps(quote) + "\n")
         return {"type": "section", "text": {"type": "mrkdwn", "text": quote}},
 
     # Craft and return the entire message payload as a dictionary.
