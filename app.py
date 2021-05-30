@@ -46,9 +46,6 @@ def pick_quote(channel, f: TextIOWrapper):
     message = slack_bot.get_message_payload(f)
     f.write("3 " + json.dumps(message) + "\n")
 
-    # Post the onboarding message in Slack
-    # slack_web_client.chat_postMessage(**message)
-
     f.write("4" + "\n")
     return message
 
@@ -89,7 +86,10 @@ def message(payload):
         f.write("- quote: " + json.dumps(quote))
         f.write("\n")
 
-        return quote
+        # Post the onboarding message in Slack
+        slack_web_client.chat_postMessage(**quote)
+
+        # return quote
     except Exception as error:
         f.write("Error when processing incoming message:")
         f.write("\n")
