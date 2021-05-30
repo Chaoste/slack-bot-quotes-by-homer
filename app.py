@@ -87,6 +87,8 @@ def message(payload):
         f.write("\n")
 
         # Post the onboarding message in Slack
+        slack_web_client.chat_postMessage(
+            channel=channel_id, text="Hallo Welt!")
         slack_web_client.chat_postMessage(**quote)
 
         # return quote
@@ -106,11 +108,11 @@ def message(payload):
     if "quote homer" in text.lower():
         # Since the activation phrase was met, get the channel ID that the event
         # was executed on
-        channel_id = event.get("channel")
+        # channel_id = event.get("channel")
 
         # Execute the pick_quote function and send the results of
         # flipping a coin to the channel
-        return pick_quote(channel_id)
+        # return pick_quote(channel_id)
 
 
 if __name__ == "__main__":
