@@ -42,7 +42,7 @@ def pick_quote(channel, f: TextIOWrapper):
     f.write("2")
 
     # Get the onboarding message payload
-    message = slack_bot.get_message_payload()
+    message = slack_bot.get_message_payload(f)
     f.write("3 " + message)
 
     # Post the onboarding message in Slack

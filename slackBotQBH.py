@@ -55,6 +55,7 @@ class SlackBotQBH:
 
     # Craft and return the entire message payload as a dictionary.
     def get_message_payload(self, f):
+        f.write("!!")
         return {
             "channel": self.channel,
             "blocks": [
