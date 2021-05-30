@@ -37,19 +37,19 @@ slack_web_client = WebClient(token=SLACK_TOKEN)
 def pick_quote(channel, f: TextIOWrapper):
     """Craft the SlackBotQBH, choose a quote and send the message to the channel
     """
-    f.write("1")
+    f.write("1" + "\n")
     # Create a new SlackBotQBH
     slack_bot = SlackBotQBH(channel)
-    f.write("2")
+    f.write("2" + "\n")
 
     # Get the onboarding message payload
     message = slack_bot.get_message_payload(f)
-    f.write("3 " + message)
+    f.write("3 " + json.dumps(message) + "\n")
 
     # Post the onboarding message in Slack
     # slack_web_client.chat_postMessage(**message)
 
-    f.write("4")
+    f.write("4" + "\n")
     return message
 
 
