@@ -87,9 +87,13 @@ def message(payload):
         f.write("\n")
 
         # Post the onboarding message in Slack
-        slack_web_client.chat_postMessage(
-            channel=channel_id, text="Hallo Welt!")
+        # slack_web_client.chat_postMessage(
+        #     channel=channel_id, text="Hallo Welt!")
+        f.write("A!?")
+        f.write("\n")
         slack_web_client.chat_postMessage(**quote)
+        f.write("B!?")
+        f.write("\n")
 
         # return quote
     except Exception as error:
