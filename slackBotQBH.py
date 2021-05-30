@@ -3,14 +3,14 @@ import sys
 import random
 import yaml
 
-with open("res/quotesHomerPoet.yaml", 'r') as stream:
+with open("./res/quotesHomerPoet.yaml", 'r') as stream:
     try:
         quotesHomerPoet = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
         print(exc)
         sys.exit()
 
-with open("res/quotesHomerSimpson.yaml", 'r') as stream:
+with open("./res/quotesHomerSimpson.yaml", 'r') as stream:
     try:
         quotesHomerSimpson = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
@@ -42,9 +42,13 @@ class SlackBotQBH:
 
     # Pick a random quote from the quotes array
     def _select_quote(self, f):
-        f.write("\n1\n")
+        f.write("\nGO:\n")
         _type = random.choice(list(self.QUOTES.keys()))
         f.write(_type + "\n")
+        f.write(self.QUOTES[_type])
+        f.write("\n")
+        f.write(self.QUOTES[_type]["quotes"])
+        f.write("\n")
         selection = self.QUOTES[_type]["quotes"]
         f.write(selection + "\n")
         picked = random.choice(selection)
