@@ -1,6 +1,7 @@
 from io import TextIOWrapper
 import os
 import json
+import ssl
 import traceback
 import logging
 from flask import Flask
@@ -31,7 +32,7 @@ slack_events_adapter = SlackEventAdapter(
 
 
 # Initialize a Web API client
-slack_web_client = WebClient(token=SLACK_TOKEN)
+slack_web_client = WebClient(token=SLACK_TOKEN, ssl=True)
 
 
 def pick_quote(channel, f: TextIOWrapper):
@@ -86,13 +87,22 @@ def message(payload):
         f.write("- quote: " + json.dumps(quote))
         f.write("\n")
 
-        # Post the onboarding message in Slack
-        slack_web_client.chat_postMessage(
-            channel=channel_id, text="Hallo Welt!")
         f.write("A!?")
         f.write("\n")
-        slack_web_client.chat_postMessage(**quote)
+
+        if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+                getattr(ssl, '_create_unverified_context', None)):
+            f.write("x")
+            ssl._create_default_https_context = ssl._create_unverified_context
+
         f.write("B!?")
+        f.write("\n")
+
+        # Post the onboarding message in Slack
+        # slack_web_client.chat_postMessage(
+        #     channel=channel_id, text="Hallo Welt!")
+        slack_web_client.chat_postMessage(**quote)
+        f.write("C!?")
         f.write("\n")
 
         # return quote
