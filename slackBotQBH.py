@@ -44,8 +44,12 @@ class SlackBotQBH:
     def _select_quote(self, f):
         f.write("\nGO:\n")
         _type = random.choice(list(self.QUOTES.keys()))
+        f.write(self.COIN_BLOCK)
+        f.write("\n")
         f.write(_type + "\n")
         f.write(self.QUOTES)
+        f.write("\n")
+        f.write(quotesHomerPoet)
         f.write("\n")
         f.write(self.QUOTES[_type])
         f.write("\n")
