@@ -1,8 +1,6 @@
-from io import TextIOWrapper
 import os
 import json
 import ssl
-import traceback
 import logging
 from flask import Flask
 from slack import WebClient
@@ -34,20 +32,21 @@ slack_events_adapter = SlackEventAdapter(
 # Initialize a Web API client
 slack_web_client = WebClient(token=SLACK_TOKEN)
 
+# Src: https://moreless.medium.com/how-to-fix-python-ssl-certificate-verify-failed-97772d9dd14c
+if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+        getattr(ssl, '_create_unverified_context', None)):
+    ssl._create_default_https_context = ssl._create_unverified_context
 
-def pick_quote(channel, f: TextIOWrapper):
+
+def pick_quote(channel):
     """Craft the SlackBotQBH, choose a quote and send the message to the channel
     """
-    f.write("1" + "\n")
     # Create a new SlackBotQBH
     slack_bot = SlackBotQBH(channel)
-    f.write("2" + "\n")
 
     # Get the onboarding message payload
-    message = slack_bot.get_message_payload(f)
-    f.write("3 " + json.dumps(message) + "\n")
+    message = slack_bot.get_message_payload()
 
-    f.write("4" + "\n")
     return message
 
 
@@ -78,55 +77,27 @@ def message(payload):
         f.write("- text: " + text)
         f.write("\n")
 
-        channel_id = event.get("channel")
+        # Check and see if the activation phrase was in the text of the message.
+        if "quote homer" in text.lower():
+            channel_id = event.get("channel")
 
-        f.write("- channel: " + channel_id)
-        f.write("\n")
+            f.write("- channel: " + channel_id)
+            f.write("\n")
 
-        quote = pick_quote(channel_id, f)
-        f.write("- quote: " + json.dumps(quote))
-        f.write("\n")
+            quote = pick_quote(channel_id, f)
+            f.write("- quote: " + json.dumps(quote))
+            f.write("\n")
 
-        f.write("A!?")
-        f.write("\n")
+            # Post the message in Slack
+            slack_web_client.chat_postMessage(**quote)
 
-        if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-                getattr(ssl, '_create_unverified_context', None)):
-            f.write("x")
-            ssl._create_default_https_context = ssl._create_unverified_context
-
-        f.write("B!?")
-        f.write("\n")
-
-        # Post the onboarding message in Slack
-        # slack_web_client.chat_postMessage(
-        #     channel=channel_id, text="Hallo Welt!")
-        slack_web_client.chat_postMessage(**quote)
-        f.write("C!?")
-        f.write("\n")
-
-        # return quote
     except Exception as error:
         f.write("Error when processing incoming message:")
         f.write("\n")
         f.write(repr(error))
         f.write("\n")
-        f.write(traceback.format_exc())
-        f.write("\n")
-        # raise error
     finally:
         f.close()
-
-    # Check and see if the activation phrase was in the text of the message.
-    # If so, execute the code to flip a coin.
-    # if "quote homer" in text.lower():
-        # Since the activation phrase was met, get the channel ID that the event
-        # was executed on
-        # channel_id = event.get("channel")
-
-        # Execute the pick_quote function and send the results of
-        # flipping a coin to the channel
-        # return pick_quote(channel_id)
 
 
 if __name__ == "__main__":

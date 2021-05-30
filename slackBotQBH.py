@@ -2,7 +2,6 @@
 import sys
 import random
 import yaml
-import json
 
 with open("./res/quotesHomerPoet.yaml", 'r') as stream:
     try:
@@ -42,27 +41,19 @@ class SlackBotQBH:
         self.channel = channel
 
     # Pick a random quote from the quotes array
-    def _select_quote(self, f):
-        f.write("\nGO:\n")
+    def _select_quote(self):
         _type = random.choice(list(self.QUOTES.keys()))
-        f.write(_type)
-        f.write("\n")
-        f.write(json.dumps(self.QUOTES[_type]["quotes"]))
-        f.write("\n")
         selection = self.QUOTES[_type]["quotes"]
         picked = random.choice(selection)
-        f.write(json.dumps(picked) + "\n")
         quote = f'"{picked["content"]}"'
-        f.write(json.dumps(quote) + "\n")
         return {"type": "section", "text": {"type": "mrkdwn", "text": quote}},
 
     # Craft and return the entire message payload as a dictionary.
-    def get_message_payload(self, f):
-        f.write("!!")
+    def get_message_payload(self):
         return {
             "channel": self.channel,
             "blocks": [
                 self.COIN_BLOCK,
-                *self._select_quote(f),
+                *self._select_quote(),
             ],
         }
