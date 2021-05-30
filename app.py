@@ -65,36 +65,33 @@ def message(payload):
         """Parse the message event, and if the activation string is in the text,
         simulate a coin flip and send the result.
         """
-        f.write("Slack message event received")
-        f.write("\n")
         logger.debug('Slack message event received')
 
         # Get the event data from the payload
         event = payload.get("event", {})
 
+        if event.get("bot_id") is not None:
+            pass
+
         # Get the text from the event that came through
         text = event.get("text")
-        f.write("- text: " + text)
-        f.write("\n")
-        f.write(repr(event))
-        f.write(event.get("user"))
 
         # Check and see if the activation phrase was in the text of the message.
         if "quote homer" in text.lower():
             channel_id = event.get("channel")
+            quote = pick_quote(channel_id)
 
+            f.write("Slack message event received")
+            f.write("\n")
+            f.write("- text: " + text)
+            f.write("\n")
             f.write("- channel: " + channel_id)
             f.write("\n")
-
-            quote = pick_quote(channel_id)
             f.write("- quote: " + json.dumps(quote))
             f.write("\n")
 
             # Post the message in Slack
             slack_web_client.chat_postMessage(**quote)
-        else:
-            f.write("-> ignore")
-            f.write("\n")
 
     except Exception as error:
         f.write("Error when processing incoming message:")
