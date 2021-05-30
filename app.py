@@ -1,5 +1,6 @@
 from io import TextIOWrapper
 import os
+import json
 import traceback
 import logging
 from flask import Flask
@@ -92,9 +93,9 @@ def message(payload):
     except Exception as error:
         f.write("Error when processing incoming message:")
         f.write("\n")
-        f.write(error)
+        f.write(json.dumps(error))
         f.write("\n")
-        f.write(traceback.print_exception())
+        f.write(traceback.format_exc())
         f.write("\n")
         # raise error
     finally:
