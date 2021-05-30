@@ -1,3 +1,4 @@
+from io import TextIOWrapper
 import os
 import traceback
 import logging
@@ -32,17 +33,23 @@ slack_events_adapter = SlackEventAdapter(
 slack_web_client = WebClient(token=SLACK_TOKEN)
 
 
-def pick_quote(channel):
+def pick_quote(channel, f: TextIOWrapper):
     """Craft the SlackBotQBH, choose a quote and send the message to the channel
     """
+    f.write("1")
     # Create a new SlackBotQBH
     slack_bot = SlackBotQBH(channel)
+    f.write("2")
 
     # Get the onboarding message payload
     message = slack_bot.get_message_payload()
+    f.write("3 " + message)
 
     # Post the onboarding message in Slack
-    slack_web_client.chat_postMessage(**message)
+    # slack_web_client.chat_postMessage(**message)
+
+    f.write("4")
+    return message
 
 
 @app.route('/')
@@ -77,7 +84,7 @@ def message(payload):
         f.write("- channel: " + channel_id)
         f.write("\n")
 
-        quote = pick_quote(channel_id)
+        quote = pick_quote(channel_id, f)
         f.write("- quote: " + quote)
         f.write("\n")
 

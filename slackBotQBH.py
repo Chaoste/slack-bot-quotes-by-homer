@@ -45,7 +45,6 @@ class SlackBotQBH:
         _type = random.choice(list(self.QUOTES.keys()))
         selection = self.QUOTES[_type]["quotes"]
         picked = random.choice(selection)
-        print(picked)
         quote = f'"{picked["content"]}"'
         return {"type": "section", "text": {"type": "mrkdwn", "text": quote}},
 
