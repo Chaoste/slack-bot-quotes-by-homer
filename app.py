@@ -32,7 +32,7 @@ slack_events_adapter = SlackEventAdapter(
 
 
 # Initialize a Web API client
-slack_web_client = WebClient(token=SLACK_TOKEN, ssl=True)
+slack_web_client = WebClient(token=SLACK_TOKEN)
 
 
 def pick_quote(channel, f: TextIOWrapper):
