@@ -90,6 +90,9 @@ def message(payload):
 
             # Post the message in Slack
             slack_web_client.chat_postMessage(**quote)
+        else:
+            f.write("-> ignore")
+            f.write("\n")
 
     except Exception as error:
         f.write("Error when processing incoming message:")
