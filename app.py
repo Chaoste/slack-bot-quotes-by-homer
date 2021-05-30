@@ -93,7 +93,7 @@ def message(payload):
     except Exception as error:
         f.write("Error when processing incoming message:")
         f.write("\n")
-        f.write(json.dumps(error))
+        f.write(repr(error))
         f.write("\n")
         f.write(traceback.format_exc())
         f.write("\n")
