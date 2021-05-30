@@ -76,6 +76,8 @@ def message(payload):
         text = event.get("text")
         f.write("- text: " + text)
         f.write("\n")
+        f.write(repr(event))
+        f.write(event.get("user"))
 
         # Check and see if the activation phrase was in the text of the message.
         if "quote homer" in text.lower():
