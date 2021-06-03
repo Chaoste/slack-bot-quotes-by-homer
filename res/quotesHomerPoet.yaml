@@ -12,7 +12,10 @@ quotes:
     context:
       book: The Illiad
   - content: We men are wretched things.
-    context: My name is Nobody.
+    context:
+      book: The Odyssey
+  - content: My name is Nobody.
+    context:
       book: The Odyssey
   - content: Each man delights in the work that suits him best.
     context:
