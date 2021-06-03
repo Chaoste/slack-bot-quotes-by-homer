@@ -46,23 +46,45 @@ class SlackBotQBH:
         selection = self.QUOTES[_type]["quotes"]
         picked = random.choice(selection)
         quote = f'"{picked["content"]}"'
-        return {"type": "section", "text": {"type": "mrkdwn", "text": quote}},
+        return {
+            "blocks": [
+                self.QUESTION_BLOCK,
+                {"type": "section", "text": {"type": "mrkdwn", "text": quote}},
+            ],
+            "attachments": [
+                {
+                    "text": "What is your guess?",
+                    "fallback": "You are unable to submit a guess",
+                    "callback_id": "quote_guess",
+                    "attachment_type": "default",
+                    "actions": [
+                        {
+                            "name": "author",
+                            "text": "Ancient Poet Homer",
+                            "type": "button",
+                            "value": "poet"
+                        },
+                        {
+                            "name": "author",
+                            "text": "Homer Simpson",
+                            "type": "button",
+                            "value": "simpson"
+                        }
+                    ]
+                }
+            ]
+        }
 
     # Craft and return the entire message payload as a dictionary.
     def get_message_payload(self):
+        content = self._select_quote()
         if self.channel is not None:
             return {
                 "channel": self.channel,
-                "blocks": [
-                    self.QUESTION_BLOCK,
-                    *self._select_quote(),
-                ],
+                **content,
             }
         # Response to a slash command
         return {
-            "response_type": "ephemeral",
-            "blocks": [
-                self.QUESTION_BLOCK,
-                *self._select_quote(),
-            ],
+            "response_type": "channel",
+            **content,
         }

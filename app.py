@@ -59,6 +59,51 @@ def hello_world():
 
 # When a 'message' event is detected by the events adapter, forward that payload
 # to this function.
+@slack_events_adapter.on("interactive_message")
+def message(payload):
+    f = open("logs/error.log", "a")
+    try:
+        """Parse the message event, and if the activation string is in the text,
+        pick a random quote and send the result.
+        """
+        logger.debug('Slack message event received')
+
+        # Get the event data from the payload
+        event = payload.get("event", {})
+
+        if event.get("callback_id") != "quote_guess":
+            pass
+
+        f.write(jsonify(event.get("original_meesage")))
+        f.write("\n")
+
+        f.write(jsonify(event.get("actions")))
+        f.write("\n")
+
+        return {
+            "response_type": "ephemeral",
+            "replace_original": "true",
+            "text": "That's correct. Congratulations, you know a lot about literature!"
+        }
+
+    except Exception as error:
+        f.write("Error when processing incoming message:")
+        f.write("\n")
+        f.write(repr(error))
+        f.write("\n")
+    finally:
+        f.close()
+
+    error_response = {
+        "response_type": "ephemeral",
+        "replace_original": "false",
+        "text": "Sorry, slash commando, that didn't work. Please try again."
+    }
+    return jsonify(error_response)
+
+
+# When a 'message' event is detected by the events adapter, forward that payload
+# to this function.
 @slack_events_adapter.on("message")
 def message(payload):
     f = open("logs/error.log", "a")
