@@ -51,14 +51,14 @@ def pick_quote(channel=None):
     return message
 
 
-def get_result():
+def get_result(payload):
     """Craft the SlackBotQBH, evaluate the guess and return the message
     """
     # Create a new SlackBotQBH
     slack_bot = SlackBotQBH()
 
     # Get the onboarding message payload
-    message = slack_bot.get_result_payload()
+    message = slack_bot.get_result_payload(payload)
 
     return message
 
@@ -174,7 +174,7 @@ def slash_interactive_message():
                 f.write(str(payload.get("actions")))
                 f.write("\n")
 
-                response = get_result()
+                response = get_result(payload)
                 return jsonify(response)
             else:
                 f.write("callback_id did not match")
