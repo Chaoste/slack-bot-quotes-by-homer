@@ -159,8 +159,6 @@ def slash_interactive_message():
         """Check the verification token, check the answer and send the result.
         """
         logger.debug('Slack interactive message event received')
-        f.write(json.dumps(request.form))
-        f.write("\n")
 
         payload: dict = json.loads(request.form.get("payload"))
 
@@ -168,11 +166,12 @@ def slash_interactive_message():
 
             if payload.get('callback_id') == "quote_guess":
 
-                f.write(str(payload.get("original_message")))
+                f.write("original_message: " +
+                        str(payload.get("original_message")))
                 f.write("\n")
 
-                f.write(str(payload.get("actions")))
-                f.write("\n")
+                # f.write("actions: " + str(payload.get("actions")))
+                # f.write("\n")
 
                 response = get_result(payload)
                 return jsonify(response)
