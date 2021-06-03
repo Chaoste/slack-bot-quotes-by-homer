@@ -1,9 +1,37 @@
 quotes:
-  - content: That's a quote by the poet
+  - content: Of all creatures that breathe and move upon the earth, nothing is bred that is weaker than man.
     context:
-      book: Illiad
-      page: 255
-  - content: That's another quote by the poet
+      book: The Odyssey
+  - content: There is a time for many words, and there is also a time for sleep.
     context:
-      book: Odyssee
-      page: 132
+      book: The Odyssey
+  - content: For a friend with an understanding heart is worth no less than a brother
+    context:
+      book: The Odyssey
+  - content: Even a fool learns something once it hits him.
+    context:
+      book: The Illiad
+  - content: We men are wretched things.
+    context: My name is Nobody.
+      book: The Odyssey
+  - content: Each man delights in the work that suits him best.
+    context:
+      book: The Odyssey
+  - content: And empty words are evil.
+    context:
+      book: The Odyssey
+  - content: His descent was like nightfall.
+    context:
+      book: The Illiad
+  - content: The sort of words a man says is the sort he hears in return.
+    context:
+      book: The Illiad
+  - content: Even a fool may be wise after the event.
+    context:
+      book: The Illiad
+  - content: ...of all creatures that breathe and move on earth none is more to be pitied than a man.
+    context:
+      book: The Illiad
+  - content: A multitude of rulers is not a good thing. Let there be one ruler, one king.
+    context:
+      book: The Illiad
