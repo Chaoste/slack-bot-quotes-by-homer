@@ -37,7 +37,7 @@ class SlackBotQBH:
 
     # The constructor for the class. It takes the channel name as the a
     # parameter and sets it as an instance variable.
-    def __init__(self, channel):
+    def __init__(self, channel=None):
         self.channel = channel
 
     # Pick a random quote from the quotes array
