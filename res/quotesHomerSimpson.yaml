@@ -1,9 +1,52 @@
 quotes:
-  - content: That's a quote from Simpsons
-    context:
-      season: 3
-      episode: 7
-  - content: That's another quote from Simpsons
+  - content: To alcohol! The cause of, and solution to, all of life's problems.
     context:
       season: 8
-      episode: 12
+      episode: 18
+  - content: Just because I don't care doesn't mean I don't understand.
+    context:
+      season: unknown
+      episode: unknown
+  - content: Trying is just the first step toward failure.
+    context:
+      season: 9
+      episode: 9
+  - content: You tried your best and you failed miserably. The lesson is, never try.
+    context:
+      season: 5
+      episode: 18
+  - content: If you pray to the wrong god, you might just make the right one madder and madder.
+    context:
+      season: 25
+      episode: 20
+  - content: I don't eat anything new unless I've eaten it before
+    context:
+      season: unknown
+      episode: unknown
+  - content: Alright food nerds, reality check. All the food in those pictures is poop by now. Minds blown, you're welcome.
+    context:
+      season: unknown
+      episode: unknown
+  - content: A ghost terrorizing my children is one thing; ...it's another thing entirely when he starts playing my Theremin
+    context:
+      season: unknown
+      episode: unknown
+  - content: I see the light... it burns!
+    context:
+      season: 11
+      episode: 11
+  - content: Well World, this is it. You know I always thought you’d die before me. Now as I prepare my soul for an eternity of fire and poking
+    context:
+      season: 11
+      episode: 6
+  - content: If he’s so smart how come he’s dead?
+    context:
+      season: 11
+      episode: 3
+  - content: So much violence on the surface world.
+    context:
+      season: 23
+      episode: 1
+
+# https://www.planetclaire.tv/quotes/simpsons/season-twenty-three-the-simpsons/
+# https://inews.co.uk/light-relief/jokes/homer-simpson-quotes-152562
