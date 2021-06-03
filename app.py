@@ -147,7 +147,7 @@ def slash_interactive_message():
         """Check the verification token, check the answer and send the result.
         """
         logger.debug('Slack interactive message event received')
-        f.write(jsonify(request.json))
+        f.write(json.dumps(request.form))
         f.write("\n")
         if request.form.get('token') == SLACK_VERIFICATION_TOKEN:
 
