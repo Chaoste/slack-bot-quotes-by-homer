@@ -88,3 +88,32 @@ class SlackBotQBH:
             "response_type": "in_channel",
             **content,
         }
+
+    def _give_result(self, payload):
+        guess_value = payload.get("actions")[0]["value"]
+        correct_value = payload.get("actions")[0]["name"]
+        # quote = payload["original_message"]["attachments"][0]["blocks"][1]["text"]["text"]
+
+        if correct_value == guess_value:
+            message = "That's correct. Congratulations, you know a lot about literature!"
+        else:
+            message = "D'OH! That's not correct. Good luck next time!"
+
+        return {
+            "blocks": [
+                self.QUESTION_BLOCK,
+                {"type": "section", "text": {"type": "mrkdwn", "text": message}},
+            ]
+        }
+
+    # Craft and return the entire message payload as a dictionary.
+
+    def get_result_payload(self, payload):
+        content = self._give_result(payload)
+
+        # Response to interaction
+        return {
+            "response_type": "in_channel",
+            "replace_original": False,
+            **content,
+        }

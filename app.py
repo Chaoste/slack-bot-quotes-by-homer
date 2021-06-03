@@ -51,6 +51,18 @@ def pick_quote(channel=None):
     return message
 
 
+def get_result():
+    """Craft the SlackBotQBH, evaluate the guess and return the message
+    """
+    # Create a new SlackBotQBH
+    slack_bot = SlackBotQBH()
+
+    # Get the onboarding message payload
+    message = slack_bot.get_result_payload()
+
+    return message
+
+
 @app.route('/')
 def hello_world():
     logger.debug('Hello world!')
@@ -156,27 +168,13 @@ def slash_interactive_message():
 
             if payload.get('callback_id') == "quote_guess":
 
-                guess_value = payload.get("actions")[0]["value"]
-                correct_value = payload.get("actions")[0]["name"]
-
                 f.write(str(payload.get("original_message")))
                 f.write("\n")
 
                 f.write(str(payload.get("actions")))
                 f.write("\n")
 
-                if correct_value == guess_value:
-                    response = {
-                        "response_type": "in_channel",
-                        "replace_original": "false",
-                        "text": "That's correct. Congratulations, you know a lot about literature!"
-                    }
-                else:
-                    response = {
-                        "response_type": "in_channel",
-                        "replace_original": "false",
-                        "text": "D'OH! That's not correct. Good luck next time!"
-                    }
+                response = get_result()
                 return jsonify(response)
             else:
                 f.write("callback_id did not match")
@@ -195,7 +193,7 @@ def slash_interactive_message():
 
     error_response = {
         "response_type": "in_channel",
-        "replace_original": "false",
+        "replace_original": False,
         "text": "Sorry, slash commando, that didn't work. Please try again."
     }
     return jsonify(error_response)
