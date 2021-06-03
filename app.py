@@ -88,7 +88,7 @@ def message(payload):
             pass
 
         # Get the text from the event that came through
-        text = event.get("text")
+        text = event.get("text") or ""
 
         # Check and see if the activation phrase was in the text of the message.
         if "quote homer" in text.lower():

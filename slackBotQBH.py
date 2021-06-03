@@ -94,17 +94,23 @@ class SlackBotQBH:
         correct_value = payload.get("actions")[0]["name"]
         # quote = payload["original_message"]["attachments"][0]["blocks"][1]["text"]["text"]
 
+        guess_title = "Ancient Poet Homer" if guess_value == "poet" else "Homer Simpson"
+
         if correct_value == guess_value:
-            message = "That's correct. Congratulations, you know a lot about literature!"
+            message = f"You've chosen {guess_title} ... \n\n That's correct. Congratulations, you know a lot about literature!"
         else:
-            message = "D'OH! That's not correct. Good luck next time!"
+            message = f"You've chosen {guess_title} ... \n\n D'OH! That's not correct. Good luck next time!"
 
         return {
-            "blocks": [
-                self.QUESTION_BLOCK,
-                {"type": "section", "text": {"type": "mrkdwn", "text": message}},
-            ]
+            "text": message
         }
+
+        # return {
+        #     "blocks": [
+        #         self.QUESTION_BLOCK,
+        #         {"type": "section", "text": {"type": "mrkdwn", "text": message}},
+        #     ]
+        # }
 
     # Craft and return the entire message payload as a dictionary.
 
@@ -113,7 +119,7 @@ class SlackBotQBH:
 
         # Response to interaction
         return {
-            "response_type": "in_channel",
+            "response_type": "ephemeral",
             "replace_original": False,
             **content,
         }
