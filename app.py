@@ -2,7 +2,7 @@ import os
 import json
 import ssl
 import logging
-from flask import Flask
+from flask import Flask, jsonify, request
 from slack import WebClient
 from slackeventsapi import SlackEventAdapter
 from slackBotQBH import SlackBotQBH
@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
+SLACK_VERIFICATION_TOKEN = os.environ.get("SLACK_VERIFICATION_TOKEN")
 SLACK_EVENTS_TOKEN = os.environ.get("SLACK_EVENTS_TOKEN")
 PORT = os.environ.get("PORT")
 
@@ -38,8 +39,8 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
     ssl._create_default_https_context = ssl._create_unverified_context
 
 
-def pick_quote(channel):
-    """Craft the SlackBotQBH, choose a quote and send the message to the channel
+def pick_quote(channel=None):
+    """Craft the SlackBotQBH, choose a quote and return the message
     """
     # Create a new SlackBotQBH
     slack_bot = SlackBotQBH(channel)
@@ -63,7 +64,7 @@ def message(payload):
     f = open("logs/error.log", "a")
     try:
         """Parse the message event, and if the activation string is in the text,
-        simulate a coin flip and send the result.
+        pick a random quote and send the result.
         """
         logger.debug('Slack message event received')
 
@@ -100,6 +101,42 @@ def message(payload):
         f.write("\n")
     finally:
         f.close()
+
+
+@app.route('/slack/command', methods=['POST'])
+def slash():
+    f = open("logs/error.log", "a")
+    try:
+        """Check the verification token, pick a random quote and send the result.
+        """
+        logger.debug('Slack slash command event received')
+
+        if request.form.get('token') == SLACK_VERIFICATION_TOKEN:
+            quote = pick_quote()
+
+            f.write("Slack slash command event received")
+            f.write("\n")
+            f.write("- quote: " + json.dumps(quote))
+            f.write("\n")
+
+            return jsonify(quote)
+        else:
+            f.write("Verification token did not match")
+            f.write("\n")
+
+    except Exception as error:
+        f.write("Error when processing incoming slash command:")
+        f.write("\n")
+        f.write(repr(error))
+        f.write("\n")
+    finally:
+        f.close()
+
+    error_response = {
+        "response_type": "ephemeral",
+        "text": "Sorry, slash commando, that didn't work. Please try again."
+    }
+    return jsonify(error_response)
 
 
 if __name__ == "__main__":

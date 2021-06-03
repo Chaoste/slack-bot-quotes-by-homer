@@ -25,7 +25,7 @@ class SlackBotQBH:
     }
 
     # Create a constant that contains the default text for the message
-    COIN_BLOCK = {
+    QUESTION_BLOCK = {
         "type": "section",
         "text": {
             "type": "mrkdwn",
@@ -50,10 +50,19 @@ class SlackBotQBH:
 
     # Craft and return the entire message payload as a dictionary.
     def get_message_payload(self):
+        if self.channel is not None:
+            return {
+                "channel": self.channel,
+                "blocks": [
+                    self.QUESTION_BLOCK,
+                    *self._select_quote(),
+                ],
+            }
+        # Response to a slash command
         return {
-            "channel": self.channel,
+            "response_type": "ephemeral",
             "blocks": [
-                self.COIN_BLOCK,
+                self.QUESTION_BLOCK,
                 *self._select_quote(),
             ],
         }
