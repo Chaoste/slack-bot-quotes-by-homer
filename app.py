@@ -149,20 +149,34 @@ def slash_interactive_message():
         logger.debug('Slack interactive message event received')
         f.write(json.dumps(request.form))
         f.write("\n")
-        if request.form.get('token') == SLACK_VERIFICATION_TOKEN:
 
-            if request.form.get('callback_id') == "quote_guess":
-                f.write(str(request.form.get("original_message")))
+        payload: dict = request.form.get("payload")
+
+        if payload.get('token') == SLACK_VERIFICATION_TOKEN:
+
+            if payload.get('callback_id') == "quote_guess":
+
+                guess_value = payload.get("actions")[0]["value"]
+                correct_value = payload.get("actions")[0]["name"]
+
+                f.write(str(payload.get("original_message")))
                 f.write("\n")
 
-                f.write(str(request.form.get("actions")))
+                f.write(str(payload.get("actions")))
                 f.write("\n")
 
-                response = {
-                    "response_type": "ephemeral",
-                    "replace_original": "true",
-                    "text": "That's correct. Congratulations, you know a lot about literature!"
-                }
+                if correct_value == guess_value:
+                    response = {
+                        "response_type": "ephemeral",
+                        "replace_original": "true",
+                        "text": "That's correct. Congratulations, you know a lot about literature!"
+                    }
+                else:
+                    response = {
+                        "response_type": "ephemeral",
+                        "replace_original": "true",
+                        "text": "D'OH! That's not correct. Good luck next time!"
+                    }
                 return jsonify(response)
             else:
                 f.write("callback_id did not match")

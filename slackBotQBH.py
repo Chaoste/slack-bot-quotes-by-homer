@@ -59,13 +59,13 @@ class SlackBotQBH:
                     "attachment_type": "default",
                     "actions": [
                         {
-                            "name": "author",
+                            "name": _type,
                             "text": "Ancient Poet Homer",
                             "type": "button",
                             "value": "poet"
                         },
                         {
-                            "name": "author",
+                            "name": _type,
                             "text": "Homer Simpson",
                             "type": "button",
                             "value": "simpson"
