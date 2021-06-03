@@ -150,7 +150,7 @@ def slash_interactive_message():
         f.write(json.dumps(request.form))
         f.write("\n")
 
-        payload: dict = request.form.get("payload")
+        payload: dict = json.loads(request.form.get("payload"))
 
         if payload.get('token') == SLACK_VERIFICATION_TOKEN:
 
