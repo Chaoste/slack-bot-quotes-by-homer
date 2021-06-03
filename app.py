@@ -80,7 +80,7 @@ def message(payload):
 
         # Check and see if the activation phrase was in the text of the message.
         if "quote homer" in text.lower():
-            channel_id = event.get("channel")
+            channel_id = event.get("in_channel")
             quote = pick_quote(channel_id)
 
             f.write("Slack message event received")
@@ -134,7 +134,7 @@ def slash_command():
         f.close()
 
     error_response = {
-        "response_type": "channel",
+        "response_type": "in_channel",
         "text": "Sorry, slash commando, that didn't work. Please try again."
     }
     return jsonify(error_response)
@@ -167,14 +167,14 @@ def slash_interactive_message():
 
                 if correct_value == guess_value:
                     response = {
-                        "response_type": "ephemeral",
-                        "replace_original": "true",
+                        "response_type": "in_channel",
+                        "replace_original": "false",
                         "text": "That's correct. Congratulations, you know a lot about literature!"
                     }
                 else:
                     response = {
-                        "response_type": "ephemeral",
-                        "replace_original": "true",
+                        "response_type": "in_channel",
+                        "replace_original": "false",
                         "text": "D'OH! That's not correct. Good luck next time!"
                     }
                 return jsonify(response)
@@ -194,7 +194,7 @@ def slash_interactive_message():
         f.close()
 
     error_response = {
-        "response_type": "ephemeral",
+        "response_type": "in_channel",
         "replace_original": "false",
         "text": "Sorry, slash commando, that didn't work. Please try again."
     }

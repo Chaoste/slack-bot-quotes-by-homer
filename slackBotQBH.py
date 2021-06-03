@@ -85,6 +85,6 @@ class SlackBotQBH:
             }
         # Response to a slash command
         return {
-            "response_type": "channel",
+            "response_type": "in_channel",
             **content,
         }
