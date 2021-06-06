@@ -1,6 +1,6 @@
+# Slack Bot - Quotes by Homer
 
-
-
+![](res/slack-bot-homer-quotes.gif)
 
 
 ## Flask Server on Netcup
